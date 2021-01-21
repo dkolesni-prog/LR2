@@ -2,20 +2,21 @@
 
 #include <cmath>
 
-#include <ctype.h>
+#include <cctype>
 
 #define ABS(a) ((a) > 0) ? +(a) : -(a)
-//ЛР2:
-//1. math.h — старая библиотека, пришедшая из С. В С++ используйте cmath
-//2. Выводятся только знаки и не выводятся их коды
-//3. Из какой библиотеки взялась toascii?
-//4. Не выполнено последнее задание ЛР
+//ЛР
+
+//1)+ ctype.h — это тоже старая библиотека. Все стандартные заголовки с ".h" - это устаревшие версии прямиком из С++. Для подавляющего большинства из них есть обновлённый аналог без ".h" в конце, но с буквой "c" в начале. Например, для ctype.h это cctype
+//2)+ Зачем вам в середине main вдруг #define float double? Очень плохой ход
+//3)+ Преобразования в стиле С - char(i) и (double). Забудьте их. В С++ для преобразования типов используются cast'ы. В частности, static_cast.
+//4)+ Ошибка в последней части задания. Посмотрите, какой ряд у вас получается и какой должен.
 
 
 int main() {
     std::cout << "Задача 1" << std::endl;
     for (int i = 33; i < 127; ++i)
-        std::cout << i << ' ' << char(i) << std::endl;
+        std::cout << i << ' ' << static_cast<char>(i) << std::endl;
 
     std::cout << "Задача 2" << std::endl;
     char input;
@@ -49,14 +50,13 @@ int main() {
         std::cout << 0 << std::endl;
     }
     std::cout << "Задача 4" << std::endl;
-    int n = 1;
+    int n = 0;
     double result1 = 0;
     double result2 = 0;
-#define float double
-    float precision = 0;
+    double precision = 0;
     std::cout << "Enter precision" << std::endl;
     std::cin >> precision;
-    float a = 0;
+    double a = 0;
     std::cout << "enter a (-1 <= a <= 1)" << std::endl;
     std::cin >> a;
 
@@ -64,7 +64,7 @@ int main() {
     while (ABS(result1 - result2) > precision) {
         int term;
         term = (n%2 == 0) ? 1 : -1;
-        result2 += term * (double) (pow(a, 2 * n + 1)) / (2 * n + 1);
+        result2 += term * static_cast<double>((pow(a, 2 * n + 1)) / (2 * n + 1));
         n++;
     }
     std::cout << "Precision = " << precision << std::endl;
